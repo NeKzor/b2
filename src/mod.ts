@@ -385,9 +385,7 @@ export class BackblazeClient {
                     .map((part) => encodeURIComponent(part))
                     .join('/'),
                 'Content-Type': options.contentType ?? 'b2/x-auto',
-                'Content-Length': (
-                    options.fileContents.byteLength + hash.length
-                ).toString(),
+                'Content-Length': options.fileContents.byteLength.toString(),
                 'X-Bz-Content-Sha1': hash,
                 ...(options.contentDisposition
                     ? { 'X-Bz-Info-b2-content-disposition': encodeURIComponent(options.contentDisposition) }
