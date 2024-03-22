@@ -4,9 +4,10 @@
     "exports": "./src/mod.ts",
     "publish": {
         "include": [
+            "src/**/*.ts",
+            "deno.json",
             "LICENSE",
-            "README.md",
-            "src/**/*.ts"
+            "README.md"
         ]
     },
     "tasks": {
