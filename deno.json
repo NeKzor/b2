@@ -1,0 +1,35 @@
+{
+    "name": "@nekz/b2",
+    "version": "0.1.0",
+    "exports": "./src/mod.ts",
+    "publish": {
+        "include": [
+            "LICENSE",
+            "README.md",
+            "src/**/*.ts"
+        ]
+    },
+    "tasks": {
+        "check": "deno fmt --check && deno lint && deno task check:types",
+        "check:types": "deno check --no-lock src/**/*.ts tests/**/*.ts",
+        "test": "deno test --env --allow-env --allow-net",
+        "test:publish": "deno publish --dry-run",
+        "backup": "deno run examples/backup.ts"
+    },
+    "fmt": {
+        "useTabs": false,
+        "lineWidth": 120,
+        "indentWidth": 4,
+        "singleQuote": true,
+        "proseWrap": "preserve",
+        "exclude": [
+            ".github"
+        ]
+    },
+    "compilerOptions": {
+        "noUncheckedIndexedAccess": true
+    },
+    "exclude": [
+        "examples/"
+    ]
+}
