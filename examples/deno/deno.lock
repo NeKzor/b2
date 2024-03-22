@@ -1,0 +1,19 @@
+{
+  "version": "3",
+  "packages": {
+    "specifiers": {
+      "jsr:@nekz/b2@^0.1.1": "jsr:@nekz/b2@0.1.1"
+    },
+    "jsr": {
+      "@nekz/b2@0.1.1": {
+        "integrity": "759851f9db00b4f8759e8cec47f7bcbf68b70bd06f0ccc68f8f4b042e9559730"
+      }
+    }
+  },
+  "remote": {},
+  "workspace": {
+    "dependencies": [
+      "jsr:@nekz/b2@^0.1.1"
+    ]
+  }
+}

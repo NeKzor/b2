@@ -1,0 +1,17 @@
+{
+  "name": "bun",
+  "module": "index.ts",
+  "scripts": {
+    "start": "bun run index.ts"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@nekz/b2": "npm:@jsr/nekz__b2"
+  }
+}

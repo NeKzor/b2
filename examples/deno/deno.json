@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "start": "deno run --env --allow-env --allow-net main.ts"
+  },
+  "imports": { "@nekz/b2": "jsr:@nekz/b2@^0.1.1" }
+}
