@@ -1,6 +1,9 @@
+[![JSR](https://jsr.io/badges/@nekz/b2)](https://jsr.io/@nekz/b2)
+[![JSR Score](https://jsr.io/badges/@nekz/b2/score)](https://jsr.io/@nekz/b2)
+
 # b2
 
-JavaScript library for accessing the [Backblaze B2 Cloud Storage] API.
+JavaScript module for accessing the [Backblaze B2 Cloud Storage] API.
 
 [Backblaze B2 Cloud Storage]: https://www.backblaze.com/docs/cloud-storage
 
