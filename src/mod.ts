@@ -1,11 +1,6 @@
 // Copyright (c) 2024, NeKz
 // SPDX-License-Identifier: MIT
 
-/**
- * This module is used for accessing the Backblaze B2 Cloud Storage API.
- * @module
- */
-
 /** Allowed capabilities of an authorized account.  */
 export type AllowedCapability =
     | 'shareFiles'
