@@ -358,7 +358,7 @@ export class BackblazeClient {
      * @see https://www.backblaze.com/b2/docs/b2_upload_file.html
      */
     public async uploadFile(options: UploadFileOptions): Promise<UploadFileResponse> {
-        const { authorizationToken, uploadUrl } = options.uploadUrl ? options.uploadUrl : await this.getUploadUrl({
+        const { authorizationToken, uploadUrl } = options.uploadUrl ?? await this.getUploadUrl({
             bucketId: options.bucketId,
         });
 
