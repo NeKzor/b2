@@ -16,9 +16,9 @@ export type AllowedCapability =
     | 'readBucketEncryption';
 
 /**
- * Response object of a file upload.
+ * Response object of an account authorization.
  *
- * @see BackblazeClient.uploadFile
+ * @see BackblazeClient.authorizeAccount
  */
 export interface AuthorizeAccountResponse {
     accountId: string;
