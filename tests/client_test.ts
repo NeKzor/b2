@@ -80,4 +80,12 @@ Deno.test('BackblazeClient', async (t) => {
 
         assert(downloadUrl);
     });
+
+    await t.step('listFileNames', async () => {
+        const list = await b2.listFileNames({
+            bucketId: B2_BUCKET_ID,
+        });
+
+        assert(Array.isArray(list.files));
+    });
 });

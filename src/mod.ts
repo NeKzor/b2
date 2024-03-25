@@ -77,6 +77,29 @@ export interface GetUploadUrlResponse {
     uploadUrl: string;
 }
 
+/**
+ * File names list response object.
+ */
+export interface ListFileNamesResponse {
+    files: {
+        accountId: string;
+        action: string;
+        bucketId: string;
+        contentLength: number;
+        contentMd5: string;
+        contentSha1: string;
+        contentType: string;
+        fileId: string;
+        fileInfo: { 'b2-content-disposition': string };
+        fileName: string;
+        fileRetention: { isClientAuthorizedToRead: boolean; value: null };
+        legalHold: { isClientAuthorizedToRead: boolean; value: null };
+        serverSideEncryption: { algorithm: null; mode: null };
+        uploadTimestamp: number;
+    }[];
+    nextFileName: null;
+}
+
 /** Valid Backblaze API operations. */
 export type BackblazeApiOperation =
     | 'b2_authorize_account'
@@ -155,6 +178,22 @@ export interface UploadFileOptions {
     contentDisposition?: string;
 }
 
+/**
+ * Options for listing file names.
+ */
+export interface ListFileNamesOptions {
+    /** ID of bucket. */
+    bucketId: string;
+    /** First file name to return. */
+    startFileName?: string;
+    /** The maximum number of files to return. Default = 100. Maximum = 1_000. */
+    maxFileCount?: number;
+    /** File prefix. */
+    prefix?: string;
+    /** Delimiter to be used to break files into folders. */
+    delimiter?: string;
+}
+
 /** SHA-1 hash function. */
 export type Sha1HashFunction = (
     buffer: BufferSource,
@@ -183,6 +222,7 @@ export interface BackblazeClientOptions {
 type ApiOperationOptions = ({ baseApi: string } | { url: string }) & {
     headers: HeadersInit;
     body?: BodyInit | null;
+    query?: URLSearchParams;
 };
 
 /**
@@ -247,7 +287,8 @@ export class BackblazeClient {
             headers.append('Content-Type', 'application/json');
         }
 
-        const uri = 'url' in options ? options.url : `${options.baseApi}/b2api/v3/${operation}`;
+        const query = options.query ? '?' + options.query.toString() : '';
+        const uri = 'url' in options ? options.url : `${options.baseApi}/b2api/v3/${operation}${query}`;
 
         const fetchResponse = async () => {
             return await fetch(uri, {
@@ -404,5 +445,30 @@ export class BackblazeClient {
 
         const { downloadUrl, bucketName } = this.authorization!.apiInfo.storageApi;
         return new URL(`/file/${bucketName}/${fileName}`, downloadUrl).toString();
+    }
+
+    /**
+     * List file names of a bucket.
+     * This requires the `listFiles` capability.
+     *
+     * NOTE: Requires authorization.
+     *
+     * @param options - List file names options.
+     * @returns Response object of file names list.
+     * @see https://www.backblaze.com/apidocs/b2-list-file-names
+     */
+    public async listFileNames(options: ListFileNamesOptions): Promise<ListFileNamesResponse> {
+        this.checkAuthorization();
+
+        const params = Object.entries(options).map(([key, value]) => [key, value.toString()]);
+        const query = new URLSearchParams(params);
+
+        return await this.call<ListFileNamesResponse>('b2_list_file_names', {
+            baseApi: this.authorization!.apiInfo.storageApi.apiUrl,
+            headers: {
+                Authorization: this.authorization!.authorizationToken,
+            },
+            query,
+        });
     }
 }
