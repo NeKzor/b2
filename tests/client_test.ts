@@ -81,11 +81,27 @@ Deno.test('BackblazeClient', async (t) => {
         assert(downloadUrl);
     });
 
+    let files: Awaited<ReturnType<BackblazeClient['listFileNames']>>['files'];
+
     await t.step('listFileNames', async () => {
         const list = await b2.listFileNames({
             bucketId: B2_BUCKET_ID,
         });
 
         assert(Array.isArray(list.files));
+
+        files = list.files;
+    });
+
+    await t.step('deleteFileVersion', async () => {
+        for (const { fileName, fileId } of files) {
+            const deletedFile = await b2.deleteFileVersion({
+                fileName,
+                fileId,
+            });
+
+            assertEquals(deletedFile.fileName, fileName);
+            assertEquals(deletedFile.fileId, fileId);
+        }
     });
 });

@@ -100,6 +100,14 @@ export interface ListFileNamesResponse {
     nextFileName: null;
 }
 
+/**
+ * Delete file version response object.
+ */
+export interface DeleteFileVersionResponse {
+    fileId: string;
+    fileName: string;
+}
+
 /** Valid Backblaze API operations. */
 export type BackblazeApiOperation =
     | 'b2_authorize_account'
@@ -192,6 +200,18 @@ export interface ListFileNamesOptions {
     prefix?: string;
     /** Delimiter to be used to break files into folders. */
     delimiter?: string;
+}
+
+/**
+ * Options for deleting file version.
+ */
+export interface DeleteFileVersionOptions {
+    /** The name of the file. */
+    fileName: string;
+    /** The ID of the file. */
+    fileId: string;
+    /** Bypass Object Lock protection. */
+    bypassGovernance?: boolean;
 }
 
 /** SHA-1 hash function. */
@@ -469,6 +489,27 @@ export class BackblazeClient {
                 Authorization: this.authorization!.authorizationToken,
             },
             query,
+        });
+    }
+
+    /**
+     * Delete a file version.
+     *
+     * NOTE: Requires authorization.
+     *
+     * @param options - Delete file version options.
+     * @returns Response object of deleted file version.
+     * @see https://www.backblaze.com/apidocs/b2-delete-file-version
+     */
+    public async deleteFileVersion(options: DeleteFileVersionOptions): Promise<DeleteFileVersionResponse> {
+        this.checkAuthorization();
+
+        return await this.call<DeleteFileVersionResponse>('b2_delete_file_version', {
+            baseApi: this.authorization!.apiInfo.storageApi.apiUrl,
+            headers: {
+                Authorization: this.authorization!.authorizationToken,
+            },
+            body: JSON.stringify(options),
         });
     }
 }
